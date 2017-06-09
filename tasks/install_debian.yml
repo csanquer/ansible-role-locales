@@ -28,27 +28,8 @@
     - locales
 
 - name: configure timezone
-  template:
-    src: timezone.j2
-    dest: /etc/timezone
-    owner: root
-    group: root
-    mode: 0644
-
-- name: remove localtime
-  file:
-    path: /etc/localtime
-    state: absent
-  when: ansible_distribution == 'Ubuntu' and ansible_distribution_version|version_compare('14.04', '>=')
-
-- name: configure timezone for localtime
-  file:
-    src: "/usr/share/zoneinfo/{{ locale_timezone_continent|default('Etc') }}/{{ locale_timezone_city|default('UTC') }}"
-    dest: /etc/localtime
-    owner: root
-    group: root
-    state: link
-  when: ansible_distribution == 'Ubuntu' and ansible_distribution_version|version_compare('14.04', '>=')
+  timezone:
+    name: "{{ locale_timezone|default('Etc/UTC') }}"
 
 - name: configure default locale
   template:
