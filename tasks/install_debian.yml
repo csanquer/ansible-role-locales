@@ -21,11 +21,10 @@
 
 - name: install locales packages
   apt:
-    name: "{{ item }}"
+    name:
+      - tzdata
+      - locales
     state: latest
-  with_items:
-    - tzdata
-    - locales
 
 - name: configure timezone
   timezone:
@@ -37,7 +36,7 @@
     dest: /etc/default/locale
     owner: root
     group: root
-    mode: 0644
+    mode: "0644"
 
 - name: generate locales
   locale_gen:
